@@ -100,10 +100,11 @@ struct AABB3D
     /*!
      * Offset the bounding box in the horizontal direction; outward or inward.
      * 
-     * \param outset the distance (positive or negative) to expand the bounding box outward
+     * \param outsetX the distance (positive or negative) to expand the bounding box outward on the X axis
+     * \param outsetY the distance (positive or negative) to expand the bounding box outward on the Y axis
      * \return this object (which has changed)
      */
-    AABB3D expandXY(coord_t outset);
+    AABB3D expandXY(coord_t outsetX, coord_t outsetY);
 };
 
 }//namespace cura

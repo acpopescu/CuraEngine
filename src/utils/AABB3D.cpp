@@ -102,10 +102,10 @@ AABB3D AABB3D::expand(coord_t outset)
     return *this;
 }
 
-AABB3D AABB3D::expandXY(coord_t outset)
+AABB3D AABB3D::expandXY(coord_t outsetX, coord_t outsetY)
 {
-    min -= Point3(outset, outset, 0);
-    max += Point3(outset, outset, 0);
+    min -= Point3(outsetX, outsetY, 0);
+    max += Point3(outsetX, outsetY, 0);
     if (min.x > max.x || min.y > max.y)
     { // make this AABB3D invalid
         *this = AABB3D();

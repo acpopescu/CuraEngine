@@ -346,7 +346,7 @@ coord_t Polygons::polyLineLength() const
     return length;
 }
 
-Polygons Polygons::offset(int distance, ClipperLib::JoinType join_type, double miter_limit) const
+Polygons Polygons::offsetXY(int distanceX, int distanceY, ClipperLib::JoinType join_type, double miter_limit) const
 {
     if (distance == 0)
     {
@@ -356,11 +356,15 @@ Polygons Polygons::offset(int distance, ClipperLib::JoinType join_type, double m
     ClipperLib::ClipperOffset clipper(miter_limit, 10.0);
     clipper.AddPaths(unionPolygons().paths, join_type, ClipperLib::etClosedPolygon);
     clipper.MiterLimit = miter_limit;
-    clipper.Execute(ret.paths, distance);
+    clipper.Execute(ret.paths, distanceX, distanceY);
     return ret;
 }
 
 Polygons ConstPolygonRef::offset(int distance, ClipperLib::JoinType join_type, double miter_limit) const
+{
+    this->offsetXY(distance, join_type, miter_limit);
+}
+Polygons ConstPolygonRef::offsetXY(int distanceX, int distanceY, ClipperLib::JoinType join_type, double miter_limit) const
 {
     if (distance == 0)
     {
@@ -372,7 +376,7 @@ Polygons ConstPolygonRef::offset(int distance, ClipperLib::JoinType join_type, d
     ClipperLib::ClipperOffset clipper(miter_limit, 10.0);
     clipper.AddPath(*path, join_type, ClipperLib::etClosedPolygon);
     clipper.MiterLimit = miter_limit;
-    clipper.Execute(ret.paths, distance);
+    clipper.Execute(ret.paths, distanceX, distanceY);
     return ret;
 }
 

@@ -1002,21 +1002,26 @@ void Slicer::makePolygons(Mesh& mesh, SlicingTolerance slicing_tolerance, std::v
     }
 
 
-    const coord_t xy_offset = mesh.settings.get<coord_t>("xy_offset");
-    const coord_t xy_offset_0 = mesh.settings.get<coord_t>("xy_offset_layer_0");
+    const coord_t xy_offset_x = mesh.settings.get<coord_t>("xy_offset_x");
+    const coord_t xy_offset_y = mesh.settings.get<coord_t>("xy_offset_y");
+    const coord_t xy_offset_0_x = mesh.settings.get<coord_t>("xy_offset_layer_0_x");
+    const coord_t xy_offset_0_y = mesh.settings.get<coord_t>("xy_offset_layer_0_y");
 
     cura::parallel_for<size_t>(0,
                                layers.size(),
-                               [&layers, layer_apply_initial_xy_offset, xy_offset, xy_offset_0](size_t layer_nr)
+                               [&layers, layer_apply_initial_xy_offset,
+                                xy_offset_x,    xy_offset_y,
+                                xy_offset_0_x,  xy_offset_0_y] (size_t layer_nr)
                                {
-                                   const coord_t xy_offset_local = (layer_nr <= layer_apply_initial_xy_offset) ? xy_offset_0 : xy_offset;
-                                   if (xy_offset_local != 0)
+                                   const coord_t xy_offset_local_x = (layer_nr <= layer_apply_initial_xy_offset) ? xy_offset_0_x : xy_offset_x;
+                                   const coord_t xy_offset_local_y = (layer_nr <= layer_apply_initial_xy_offset) ? xy_offset_0_y : xy_offset_y;
+                                   if (xy_offset_local_x != 0 || xy_offset_local_y !=0)
                                    {
-                                       layers[layer_nr].polygons = layers[layer_nr].polygons.offset(xy_offset_local, ClipperLib::JoinType::jtRound);
+                                       layers[layer_nr].polygons = layers[layer_nr].polygons.offset(xy_offset_local_x, xy_offset_local_y, ClipperLib::JoinType::jtRound);
                                    }
                                });
 
-    mesh.expandXY(xy_offset);
+    mesh.expandXY(xy_offset_x, xy_offset_y);
 }
 
 

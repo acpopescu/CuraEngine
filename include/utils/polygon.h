@@ -163,6 +163,7 @@ public:
     }
 
     Polygons offset(int distance, ClipperLib::JoinType joinType = ClipperLib::jtMiter, double miter_limit = 1.2) const;
+    Polygons offsetXY(int distanceX, int distanceY, ClipperLib::JoinType joinType = ClipperLib::jtMiter, double miter_limit = 1.2) const;
 
     coord_t polygonLength() const
     {
@@ -1036,9 +1037,9 @@ public:
         return ret;
     }
 
-    Polygons offset(int distance, ClipperLib::JoinType joinType = ClipperLib::jtMiter, double miter_limit = 1.2) const;
+    Polygons offsetXY(int distanceX, int distanceY, ClipperLib::JoinType joinType = ClipperLib::jtMiter, double miter_limit = 1.2) const;
 
-    Polygons offsetPolyLine(int distance, ClipperLib::JoinType joinType = ClipperLib::jtMiter) const
+    Polygons offsetPolyLineXY(int distanceX, int distanceY, ClipperLib::JoinType joinType = ClipperLib::jtMiter) const
     {
         Polygons ret;
         double miterLimit = 1.2;
@@ -1046,9 +1047,18 @@ public:
         ClipperLib::ClipperOffset clipper(miterLimit, 10.0);
         clipper.AddPaths(paths, joinType, end_type);
         clipper.MiterLimit = miterLimit;
-        clipper.Execute(ret.paths, distance);
+        clipper.Execute(ret.paths, distanceX, distanceY);
         return ret;
     }
+    Polygons offset(int distance, ClipperLib::JoinType joinType = ClipperLib::jtMiter, double miter_limit = 1.2) const
+    {
+        offsetXY(distance, distance, joinType, miter_limit);
+    }
+    Polygons offsetPolyLine(int distance, ClipperLib::JoinType joinType = ClipperLib::jtMiter) const
+    {
+        offsetPolyLineXY(distance, distance, joinType);
+    }
+
 
     /*!
      * Check if we are inside the polygon.

@@ -81,11 +81,11 @@ AABB3D Mesh::getAABB() const
 {
     return aabb;
 }
-void Mesh::expandXY(int64_t offset)
+void Mesh::expandXY(int64_t offsetX, int64_t offsetY)
 {
-    if (offset)
+    if (offsetX || offsetY)
     {
-        aabb.expandXY(offset);
+        aabb.expandXY(offsetX, offsetY);
     }
 }
 
