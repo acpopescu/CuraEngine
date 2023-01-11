@@ -76,7 +76,7 @@ void createLayerWithParts(const Settings& settings, SliceLayer& storageLayer, Sl
                 }
                 else
                 {
-                    holes.add(poly.offset(hole_offsetX, hole_offsetY));
+                    holes.add(poly.offsetXY(hole_offsetX, hole_offsetY));
                 }
             }
             storageLayer.parts.back().outline.add(outline.difference(holes.unionPolygons()));

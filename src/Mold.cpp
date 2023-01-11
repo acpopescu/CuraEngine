@@ -25,7 +25,9 @@ void Mold::process(std::vector<Slicer*>& slicer_list)
             if (mesh.settings.get<bool>("mold_enabled"))
             {
                 has_any_mold = true;
-                mesh.expandXY(mesh.settings.get<coord_t>("mold_width"));
+                mesh.expandXY(
+                    mesh.settings.get<coord_t>("mold_width"),
+                    mesh.settings.get<coord_t>("mold_width"));
             }
         }
         if (!has_any_mold)

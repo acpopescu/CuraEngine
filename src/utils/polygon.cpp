@@ -348,7 +348,7 @@ coord_t Polygons::polyLineLength() const
 
 Polygons Polygons::offsetXY(int distanceX, int distanceY, ClipperLib::JoinType join_type, double miter_limit) const
 {
-    if (distance == 0)
+    if (distanceX == 0 && distanceY == 0)
     {
         return *this;
     }
@@ -362,11 +362,11 @@ Polygons Polygons::offsetXY(int distanceX, int distanceY, ClipperLib::JoinType j
 
 Polygons ConstPolygonRef::offset(int distance, ClipperLib::JoinType join_type, double miter_limit) const
 {
-    this->offsetXY(distance, join_type, miter_limit);
+    return this->offsetXY(distance, distance, join_type, miter_limit);
 }
 Polygons ConstPolygonRef::offsetXY(int distanceX, int distanceY, ClipperLib::JoinType join_type, double miter_limit) const
 {
-    if (distance == 0)
+    if (distanceX == 0 && distanceY == 0)
     {
         Polygons ret;
         ret.add(*this);

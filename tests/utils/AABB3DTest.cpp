@@ -138,11 +138,11 @@ TEST(AABB3DTest, TestExpand)
 
     EXPECT_FALSE(box.hit(toBox(6, 11, 3))) << "Before expanding, the box shouldn't contain this point.";
 
-    box.expandXY(2);
+    box.expandXY(2, 2);
 
     EXPECT_TRUE(box.hit(toBox(6, 11, 1))) << "After expanding, the box should contain this point.";
 
-    box.expandXY(-2);
+    box.expandXY(-2, -2);
 
     EXPECT_FALSE(box.hit(toBox(6, 11, 1))) << "After shrinking, the box shouldn't contain this point anymore.";
 }

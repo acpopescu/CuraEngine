@@ -1052,11 +1052,11 @@ public:
     }
     Polygons offset(int distance, ClipperLib::JoinType joinType = ClipperLib::jtMiter, double miter_limit = 1.2) const
     {
-        offsetXY(distance, distance, joinType, miter_limit);
+        return offsetXY(distance, distance, joinType, miter_limit);
     }
     Polygons offsetPolyLine(int distance, ClipperLib::JoinType joinType = ClipperLib::jtMiter) const
     {
-        offsetPolyLineXY(distance, distance, joinType);
+        return offsetPolyLineXY(distance, distance, joinType);
     }
 
 
